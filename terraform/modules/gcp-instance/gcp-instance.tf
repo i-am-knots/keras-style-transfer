@@ -1,0 +1,47 @@
+resource "google_service_account" "default" {
+  account_id   = "knots-service-account-gpu-${var.environment}"
+  display_name = "Service Account"
+}
+
+resource "google_compute_instance" "gpu_compute_instance" {
+  name         = var.instance_name
+  machine_type = "n1-standard-1"
+  zone         = "us-central1-a"
+
+  boot_disk {
+    initialize_params {
+      image = "projects/ml-images/global/images/c1-deeplearning-tf-2-1-cu110-v20211022-debian-10"
+    }
+  }
+
+  // Local SSD disk
+  scratch_disk {
+    interface = "SCSI"
+  }
+
+  network_interface {
+    network = "default"
+
+    access_config {
+      // Ephemeral public IP
+    }
+  }
+
+  guest_accelerator {
+    type  = "nvidia-tesla-k80"
+    count = 1
+  }
+
+  scheduling {
+    preemptible       = true
+    automatic_restart = false
+  }
+
+  metadata_startup_script = "echo hi > /test.txt"
+
+  service_account {
+    # Google recommends custom service accounts that have cloud-platform scope and permissions granted via IAM Roles.
+    email  = google_service_account.default.email
+    scopes = ["cloud-platform"]
+  }
+}
