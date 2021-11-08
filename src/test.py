@@ -3,8 +3,8 @@ import tensorflow as tf
 from tensorflow import keras
 from tensorflow.keras.applications import vgg19
 
-base_image_path = "source-images/test.png"
-style_reference_image_path = "style-images/trees.png"
+base_image_path = "../source-images/test.png"
+style_reference_image_path = "../style-images/trees.png"
 
 result_prefix = "generated"
 

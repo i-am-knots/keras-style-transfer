@@ -1,8 +1,3 @@
-resource "google_service_account" "default" {
-  account_id   = "knots-service-account-gpu-${var.environment}"
-  display_name = "Service Account"
-}
-
 resource "google_compute_instance" "gpu_compute_instance" {
   name         = var.instance_name
   machine_type = "n1-standard-1"
@@ -41,7 +36,7 @@ resource "google_compute_instance" "gpu_compute_instance" {
 
   service_account {
     # Google recommends custom service accounts that have cloud-platform scope and permissions granted via IAM Roles.
-    email  = google_service_account.default.email
+    email  = "257220959067-compute@developer.gserviceaccount.com" 
     scopes = ["cloud-platform"]
   }
 }
