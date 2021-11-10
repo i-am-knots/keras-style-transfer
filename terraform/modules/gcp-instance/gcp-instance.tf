@@ -6,6 +6,7 @@ resource "google_compute_instance" "gpu_compute_instance" {
   boot_disk {
     initialize_params {
       image = "projects/ml-images/global/images/c1-deeplearning-tf-2-1-cu110-v20211022-debian-10"
+      #image = "projects/ubuntu-os-cloud/global/images/ubuntu-2004-focal-v20211102"
     }
   }
 
@@ -32,7 +33,7 @@ resource "google_compute_instance" "gpu_compute_instance" {
     automatic_restart = false
   }
 
-  metadata_startup_script = "echo hi > /test.txt"
+  metadata_startup_script = "git clone https://github.com/i-am-knots/keras-style-transfer.git"
 
   service_account {
     # Google recommends custom service accounts that have cloud-platform scope and permissions granted via IAM Roles.
