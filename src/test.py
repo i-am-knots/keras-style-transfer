@@ -15,7 +15,7 @@ content_weight = 2.5e-8
 
 # Dimensions of the generated picture.
 width, height = keras.preprocessing.image.load_img(base_image_path).size
-img_nrows = 400
+img_nrows = 1080
 img_ncols = int(width * img_nrows / height)
 
 print("SET VARIABLES SUCCESS")
@@ -162,14 +162,14 @@ style_reference_image = preprocess_image(style_reference_image_path)
 combination_image = tf.Variable(preprocess_image(base_image_path))
 print("FINISHED IMAGE PREPROCESSING")
 
-iterations = 4000
+iterations = 50
 for i in range(1, iterations + 1):
     loss, grads = compute_loss_and_grads(
         combination_image, base_image, style_reference_image
     )
     optimizer.apply_gradients([(grads, combination_image)])
     print("Iteration %d: loss=%.2f" % (i, loss))
-    if i % 100 == 0:
+    if i % 10 == 0:
         img = deprocess_image(combination_image.numpy())
         fname = "output/" + result_prefix + "_at_iteration_%d.png" % i
         keras.preprocessing.image.save_img(fname, img)
