@@ -1,3 +1,5 @@
 .terraform
 notes/
 terraform.tfstate*
+job-orchestrator-go/
+test.mp4

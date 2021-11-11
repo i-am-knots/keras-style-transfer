@@ -31,4 +31,4 @@ def get_render_test():
     return "Done"
 
 if __name__ == '__main__':
-    api.run(port=8080) 
+    api.run(port=8082) 
