@@ -7,11 +7,18 @@ provider "google" {
 locals {
   environment   = "dev"
   instance_name = "knots-style-transfer-${local.environment}"
+  bucket_name   = "knots-style-transfer-${local.environment}"
 }
 
-module "gcp_instance" {
-  source = "../../modules/gcp-instance"
+module "gcs" {
+  source = "../../modules/gcs"
 
-  environment   = local.environment
-  instance_name = local.instance_name
+  bucket_name = local.bucket_name
 }
+
+# module "gcp_instance" {
+#   source = "../../modules/gcp-instance"
+
+#   environment   = local.environment
+#   instance_name = local.instance_name
+# }

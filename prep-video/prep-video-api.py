@@ -4,6 +4,10 @@ from flask import Flask, json, request
 api = Flask(__name__)
 
 
+@api.route('/', methods=['GET'])
+def index_handler():
+    return "Welcome to the video prep microservice API"
+
 @api.route('/prep-video', methods=['GET'])
 def video_prep_handler():
     bucket     = request.args.get('bucket')
@@ -12,4 +16,4 @@ def video_prep_handler():
     return "Prep video to frames complete"
 
 if __name__ == '__main__':
-    api.run(port=8081) 
+    api.run(port=8080) 
