@@ -27,7 +27,9 @@ def get_render_test():
     bucket = request.args.get('bucket')
     source = request.args.get('source')
     style  = request.args.get('style')
-    test_render_frame(bucket, source, style)
+    size   = request.args.get('size')
+
+    test_render_frame(bucket, source, style, size)
     return "Done"
 
 if __name__ == '__main__':

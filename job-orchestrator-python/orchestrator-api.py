@@ -7,8 +7,8 @@ def prep_video(bucket, sourceVid):
     response = requests.get('http://localhost:8081/prep-video?bucket=' + bucket + '&source=' + sourceVid)
     return response
 
-def render_frame(bucket, frame, style, iterations):
-    response = requests.get('http://localhost:8082/render?bucket=' + bucket + '&source=' + frame + '&style=' + style + '&iterations=' + iterations)
+def render_frame(bucket, frame, style, iterations, size):
+    response = requests.get('http://localhost:8082/render?bucket=' + bucket + '&source=' + frame + '&style=' + style + '&iterations=' + iterations + "&size=" + size)
     return response
 
 
@@ -19,6 +19,7 @@ def new_job_handler():
     style      = request.args.get('style')
     iterations = request.args.get('iterations')
     frame      = request.args.get('frame')
+    size       = request.args.get('size')
     
     # prepVideoResponse   = prep_video(bucket, source)
     # renderFrameResponse = render_frame(bucket, source, style, size, iterations)
@@ -26,7 +27,7 @@ def new_job_handler():
     print("Starting Job")
     prep_video(bucket, sourceVid)
     print("Video Prep Complete")
-    render_frame(bucket, frame, style, iterations)
+    render_frame(bucket, frame, style, iterations, size)
     print("Frame Render Complete")
 
     return "render job done"

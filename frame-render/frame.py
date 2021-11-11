@@ -16,7 +16,7 @@ def render_frame(bucket, source, style, size, iterations):
 
     # Dimensions of the generated picture.
     width, height = keras.preprocessing.image.load_img(base_image_path).size
-    img_nrows = 720
+    img_nrows = int(size)
     img_ncols = int(width * img_nrows / height)
 
     print("SET VARIABLES SUCCESS")
