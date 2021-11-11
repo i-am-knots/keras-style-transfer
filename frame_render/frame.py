@@ -4,8 +4,8 @@ from tensorflow import keras
 from tensorflow.keras.applications import vgg19
 
 def render_frame(bucket, source, style, size, iterations):
-    base_image_path =  "../source-images/" + source
-    style_reference_image_path = "../style-images/" + style
+    base_image_path =  "source-images/" + source
+    style_reference_image_path = "style-images/" + style
 
     result_prefix = "generated"
 
@@ -172,6 +172,6 @@ def render_frame(bucket, source, style, size, iterations):
         print("Iteration %d: loss=%.2f" % (i, loss))
         if i % 10 == 0:
             img = deprocess_image(combination_image.numpy())
-            fname = "../output/" + result_prefix + "_at_iteration_%d.png" % i
+            fname = "output/" + result_prefix + "_at_iteration_%d.png" % i
             keras.preprocessing.image.save_img(fname, img)
 
