@@ -1,5 +1,7 @@
 import requests
-from flask import Flask, json, request
+from google.cloud import storage
+from flask import Flask, request
+from render import new_prep_pod
 
 api = Flask(__name__)
 
@@ -11,6 +13,20 @@ def render_frame(bucket, frame, style, iterations, size):
     response = requests.get('http://localhost:8082/render?bucket=' + bucket + '&source=' + frame + '&style=' + style + '&iterations=' + iterations + "&size=" + size)
     return response
 
+def get_jobs(bucket):
+    # Get the source frames from GCS
+    storage_client = storage.Client()
+    bucket = storage_client.get_bucket(bucket)
+    totalFrames = []
+
+    for blob in storage_client.list_blobs(bucket, prefix='source-frames/'):
+        totalFrames.append(blob.name)  
+
+    jobs = [totalFrames[x:x+5] for x in range(0, len(totalFrames), 5)]
+
+    return jobs
+    
+    
 
 @api.route('/new-job', methods=['GET'])
 def new_job_handler():
@@ -20,17 +36,20 @@ def new_job_handler():
     iterations = request.args.get('iterations')
     frame      = request.args.get('frame')
     size       = request.args.get('size')
-    
-    # prepVideoResponse   = prep_video(bucket, source)
-    # renderFrameResponse = render_frame(bucket, source, style, size, iterations)
-    
+      
     print("Starting Job")
-    prep_video(bucket, sourceVid)
-    print("Video Prep Complete")
-    render_frame(bucket, frame, style, iterations, size)
-    print("Frame Render Complete")
+    #prep_video(bucket, sourceVid)
+    print("Video Prep Complete. Source frames output to: " + bucket + "/source-frames/")
+    #jobs = get_jobs(bucket)
+    print("Successfully read source frames from GCS")
+    api_response = new_prep_pod()
 
-    return "render job done"
+    
+    
+    #render_frame(bucket, frame, style, iterations, size)
+    #print("Frame Render Complete")
+
+    return str(api_response)
 
 
 if __name__ == '__main__':
