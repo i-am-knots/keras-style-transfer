@@ -1,7 +1,7 @@
 import requests
 from google.cloud import storage
 from flask import Flask, request
-from render import new_prep_pod
+from preppod import new_prep_pod
 
 api = Flask(__name__)
 

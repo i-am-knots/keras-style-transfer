@@ -36,3 +36,7 @@ def make_frames(bucket, source):
             print("Could not read the frame.")
             return
 
+def main():
+    make_frames(bucket, source)
+
+main()
